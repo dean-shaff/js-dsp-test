@@ -86,7 +86,7 @@ function testNayuki(size) {
 function testNayukiObj(size) {
 
     var fft = new FFTNayuki(size);
-    
+
     var start = performance.now();
     var middle = start;
     var end = start;
@@ -113,7 +113,7 @@ function testNayukiObj(size) {
 function testNayukiC(size) {
 
     var fft = new FFTNayukiC(size);
-    
+
     var start = performance.now();
     var middle = start;
     var end = start;
@@ -131,18 +131,18 @@ function testNayukiC(size) {
 	    total += Math.sqrt(real[j] * real[j] + imag[j] * imag[j]);
 	}
     }
-    
+
     var end = performance.now();
 
     fft.dispose();
-    
+
     report("nayukic", start, middle, end, total);
 }
 
 function testNayukiCF(size) {
 
     var fft = new FFTNayukiCFloat(size);
-    
+
     var start = performance.now();
     var middle = start;
     var end = start;
@@ -160,18 +160,18 @@ function testNayukiCF(size) {
 	    total += Math.sqrt(real[j] * real[j] + imag[j] * imag[j]);
 	}
     }
-    
+
     var end = performance.now();
 
     fft.dispose();
-    
+
     report("nayukicf", start, middle, end, total);
 }
 
 function testNockert(size) {
-    
+
     var fft = new FFT.complex(size, false);
-    
+
     var start = performance.now();
     var middle = start;
     var end = start;
@@ -249,7 +249,7 @@ function testDSPJs(size) {
 function testCross(size) {
 
     var fft = new FFTCross(size);
-    
+
     var start = performance.now();
     var middle = start;
     var end = start;
@@ -263,13 +263,13 @@ function testCross(size) {
 	var ri = inputReal64s(size);
 	var out = fft.transformReal(ri, false);
 	for (var j = 0; j < size; ++j) {
-	    total += 
+	    total +=
 		Math.sqrt(out.real[j] * out.real[j] + out.imag[j] * out.imag[j]);
 	}
     }
 
     var end = performance.now();
-    
+
     report("cross", start, middle, end, total);
 
     fft.dispose();
@@ -278,7 +278,7 @@ function testCross(size) {
 function testKissFFT(size) {
 
     var fft = new KissFFTR(size);
-    
+
     var start = performance.now();
     var middle = start;
     var end = start;
@@ -302,7 +302,7 @@ function testKissFFT(size) {
     }
 
     var end = performance.now();
-    
+
     report("kissfft", start, middle, end, total);
 
     fft.dispose();
@@ -311,7 +311,7 @@ function testKissFFT(size) {
 function testKissFFTCC(size) {
 
     var fft = new KissFFT(size);
-    
+
     var start = performance.now();
     var middle = start;
     var end = start;
@@ -330,7 +330,7 @@ function testKissFFTCC(size) {
     }
 
     var end = performance.now();
-    
+
     report("kissfftcc", start, middle, end, total);
 
     fft.dispose();
@@ -339,7 +339,7 @@ function testKissFFTCC(size) {
 function testFFTW(size) {
 
     var fft = new FFTW(size);
-    
+
     var start = performance.now();
     var middle = start;
     var end = start;
@@ -363,7 +363,7 @@ function testFFTW(size) {
     }
 
     var end = performance.now();
-    
+
     report("fftw", start, middle, end, total);
 
     fft.dispose();
@@ -397,9 +397,93 @@ function testRFFTW(size) {
     fft.dispose();
 }
 
+function testFFTWr2r(size) {
+
+    var fft = new fftw.r2r.fft1d(size);
+
+    var start = performance.now();
+    var middle = start;
+    var end = start;
+
+    total = 0.0;
+
+    for (var i = 0; i < 2*iterations; ++i) {
+        if (i == iterations) {
+            middle = performance.now();
+        }
+        var ri = inputReals(size);
+        var trans = fft.forward(ri);
+        for (var j = 0; j < size / 2; ++j) {
+            total += Math.sqrt(trans[j] * trans[j] + trans[j + (size / 2) - 1] * trans[j + (size / 2) - 1]);
+        }
+    }
+
+    var end = performance.now();
+
+    report("fftw.r2r.fft1d", start, middle, end, total);
+
+    fft.dispose();
+}
+
+function testFFTWr2rdct(size) {
+
+    var fft = new fftw.r2r.dct1d(size);
+
+    var start = performance.now();
+    var middle = start;
+    var end = start;
+
+    total = 0.0;
+
+    for (var i = 0; i < 2*iterations; ++i) {
+        if (i == iterations) {
+            middle = performance.now();
+        }
+        var ri = inputReals(size);
+        var trans = fft.forward(ri);
+        for (var j = 0; j < size / 2; ++j) {
+            total += Math.sqrt(trans[j] * trans[j] + trans[j + (size / 2) - 1] * trans[j + (size / 2) - 1]);
+        }
+    }
+
+    var end = performance.now();
+
+    report("fftw.r2r.dct1d", start, middle, end, total);
+
+    fft.dispose();
+}
+
+function testFFTWc2c(size) {
+
+    var fft = new fftw.c2c.fft1d(size);
+
+    var start = performance.now();
+    var middle = start;
+    var end = start;
+
+    total = 0.0;
+
+    for (var i = 0; i < 2*iterations; ++i) {
+        if (i == iterations) {
+            middle = performance.now();
+        }
+        var ci = inputInterleaved(size);
+        var trans = fft.forward(ci);
+        for (var j = 0; j < size / 2; ++j) {
+            total += Math.sqrt(trans[j] * trans[j] + trans[j + (size / 2) - 1] * trans[j + (size / 2) - 1]);
+        }
+    }
+
+    var end = performance.now();
+
+    report("fftw.c2c.fft1d", start, middle, end, total);
+
+    fft.dispose();
+}
+
 var sizes = [ 512, 2048 ];
-var tests = [ testNayuki, testNayukiObj, testNayukiC, testNayukiCF,
-	      testKissFFT, testKissFFTCC, testDSPJs, testCross, testFFTW, testRFFTW,
+var tests = [testNayuki, testNayukiObj, testNayukiC, testNayukiCF,
+	      testKissFFT, testKissFFTCC, testDSPJs, testCross, testFFTW, testRFFTW, testFFTWr2r, testFFTWc2c, testFFTWr2rdct,
 	      testNockert, testDntj ];
 var nextTest = 0;
 var nextSize = 0;
@@ -421,9 +505,25 @@ function test() {
     interval = setInterval(test, 100);
 }
 
-window.onload = function() {
+function main () {
+
+  var fftwPromise = new Promise((resolve, reject) => {
+    fftw.onReady = () => {
+      resolve()
+    }
+  })
+
+  var documentLoadPromise = new Promise((resolve, reject) => {
+    window.onload = () => {
+      resolve()
+    }
+  })
+
+  Promise.all([fftwPromise, documentLoadPromise]).then(() => {
     document.getElementById("test-description").innerHTML =
-	"Running " + 2*iterations + " iterations per implementation.<br>Timings are given separately for the first half of the run (" + iterations + " iterations) and the second half, in case the JS engine takes some warming up.<br>Each cell contains results for the following sizes: " + sizes;
+  "Running " + 2*iterations + " iterations per implementation.<br>Timings are given separately for the first half of the run (" + iterations + " iterations) and the second half, in case the JS engine takes some warming up.<br>Each cell contains results for the following sizes: " + sizes;
     interval = setInterval(test, 100);
+  })
 }
 
+main()

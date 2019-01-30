@@ -9,7 +9,7 @@
       table, td, th { border: 0.1em solid #e0e0e0; border-collapse: collapse }
       td, th { padding: 0.5em }
     </style>
-    
+
     <script src="nayuki/fft.js"></script>
     <script src="nayuki-obj/fft.js"></script>
     <script src="nayukic/NayukiCFFT.js"></script>
@@ -24,6 +24,7 @@
     <script src="dsp.js/rfft.js"></script>
     <script src="fftw/FFTW.js"></script>
     <script src="fftw/FFT.js"></script>
+    <script src="fftw-js/bundle.js"></script>
     <script src="test.js"></script>
 
   </head>
@@ -32,18 +33,19 @@
   <h3>Forward real-complex FFT speed test</h3>
 
   <p id="test-description"></p>
-  
+
   <table>
     <tr>
       <th>Implementation</th><th>Result</th><th>Time (first half)</th><th>Time (second half)</th><th>Rate (second half)</th>
     </tr>
     <tr>
       <td>Nayuki</td><td id="nayuki-result"></td><td id="nayuki-1"></td><td id="nayuki-2"></td><td id="nayuki-itr"></td>
-    </tr><tr> 
+    </tr>
+    <tr>
       <td>Nayuki (obj)</td><td id="nayukiobj-result"></td><td id="nayukiobj-1"></td><td id="nayukiobj-2"></td><td id="nayukiobj-itr"></td>
-    </tr><tr> 
+    </tr><tr>
       <td>Nayuki (C)</td><td id="nayukic-result"></td><td id="nayukic-1"></td><td id="nayukic-2"></td><td id="nayukic-itr"></td>
-    </tr><tr> 
+    </tr><tr>
       <td>Nayuki (C-float)</td><td id="nayukicf-result"></td><td id="nayukicf-1"></td><td id="nayukicf-2"></td><td id="nayukicf-itr"></td>
     </tr><tr>
       <td>KissFFT</td><td id="kissfft-result"></td><td id="kissfft-1"></td><td id="kissfft-2"></td><td id="kissfft-itr"></td>
@@ -54,11 +56,23 @@
       <td>DSP.js</td><td id="dspjs-result"></td><td id="dspjs-1"></td><td id="dspjs-2"></td><td id="dspjs-itr"></td>
     </tr><tr>
       <td>Cross</td><td id="cross-result"></td><td id="cross-1"></td><td id="cross-2"></td><td id="cross-itr"></td>
-    </tr><tr>
+    </tr>
+    <tr>
       <td>FFTW</td><td id="fftw-result"></td><td id="fftw-1"></td><td id="fftw-2"></td><td id="fftw-itr"></td>
-    </tr><tr>
+    </tr>
+    <tr>
       <td>RFFTW</td><td id="rfftw-result"></td><td id="rfftw-1"></td><td id="rfftw-2"></td><td id="rfftw-itr"></td>
-    </tr><tr>
+    </tr>
+    <tr>
+      <td>fftw.r2r.1d</td><td id="fftw.r2r.fft1d-result"></td><td id="fftw.r2r.fft1d-1"></td><td id="fftw.r2r.fft1d-2"></td><td id="fftw.r2r.fft1d-itr"></td>
+    </tr>
+    <tr>
+      <td>fftw.c2c.1d</td><td id="fftw.c2c.fft1d-result"></td><td id="fftw.c2c.fft1d-1"></td><td id="fftw.c2c.fft1d-2"></td><td id="fftw.c2c.fft1d-itr"></td>
+    </tr>
+    <tr>
+      <td>fftw.r2r.dct1d</td><td id="fftw.r2r.dct1d-result"></td><td id="fftw.r2r.dct1d-1"></td><td id="fftw.r2r.dct1d-2"></td><td id="fftw.r2r.dct1d-itr"></td>
+    </tr>
+    <tr>
       <td>Nockert</td><td id="nockert-result"></td><td id="nockert-1"></td><td id="nockert-2"></td><td id="nockert-itr"></td>
     </tr><tr>
       <td>Dntj</td><td id="dntj-result"></td><td id="dntj-1"></td><td id="dntj-2"></td><td id="dntj-itr"></td>
@@ -88,6 +102,5 @@
     Emscripten. GPL licensed. Around 3Mb.</li>
     <li><b>RFFTW</b>: As FFTW but using real to real (Half complex) transform.</li>
   </ul>
-  
-</body>
 
+</body>
